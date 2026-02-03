@@ -14,3 +14,18 @@ def user_profile():
         "age": 30,
         "occupation": "Software Developer"
     }
+
+@app.get("/user/{user_id}")
+def user_profile(user_id:int):
+    if user_id == 1:
+        return {
+            "name": "ROOT User",
+            "age": 999,
+            "occupation": "ALPHA BEING"
+        }
+    else:
+        return {
+            "name": f"User {user_id}",
+            "age": 25 + user_id,
+            "occupation": "NPC"
+        }
