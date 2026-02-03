@@ -1,7 +1,17 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
+
+API_KEY = "naan thaan da leo"
+
+@app.middleware("http")
+async def check_api_key(request, call_next):
+    key = request.headers.get("API_KEY")
+    if key != API_KEY:
+        return JSONResponse(status_code = 401, content = {"error": "Unauthorized"})
+    return await call_next(request)
 
 # Root endpoint
 @app.get("/")
