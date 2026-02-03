@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -29,3 +30,20 @@ def user_profile(user_id:int):
             "age": 25 + user_id,
             "occupation": "NPC"
         }
+
+class User(BaseModel):
+    name: str
+    age: int
+    occupation: str
+
+users = []
+        
+@app.post("/user")
+def create_user(user: User):
+    users.append(user.dict())
+    count = len(users)
+    
+    return{
+        "message": "User Created",
+        "total_users": count
+    }
